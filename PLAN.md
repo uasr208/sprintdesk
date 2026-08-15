@@ -2,21 +2,21 @@
 
 ## Phase 1: Setup & Architecture
 
-- [ ] Initialize Vite + React 18 + TypeScript (`strict: true`)
-- [ ] Configure Tailwind CSS v3+
-- [ ] Setup Git repository & GitHub connection
+- [x] Initialize Vite + React 18 + TypeScript (`strict: true`)
+- [x] Configure Tailwind CSS v3+
+- [x] Setup Git repository & GitHub connection
 - [ ] Configure React Router v6+ with Code Splitting (Lazy & Suspense)
 - [ ] Build reusable layout components (Sidebar, Navbar, Theme Switcher)
 
 ## Phase 2: Custom Design System (No external UI libraries)
 
-- [ ] Button (variants, loading states, sizes)
-- [ ] Input (text, search, validation error states)
-- [ ] Select / Dropdown
-- [ ] Modal (accessible popups)
-- [ ] Toast System (custom toast notifications hook & UI)
-- [ ] DataTable (sortable, paginated)
-- [ ] Skeleton / Loading States
+- [x] Button (variants, loading states, sizes)
+- [x] Input (text, search, validation error states)
+- [x] Select / Dropdown
+- [x] Modal (accessible popups)
+- [x] Toast System (custom toast notifications hook & UI)
+- [x] DataTable (sortable, paginated)
+- [x] Skeleton / Loading States
 - [ ] _Bonus:_ Storybook Setup & Accessibility (axe-core) testing
 
 ## Phase 3: Task 01 — Authentication System

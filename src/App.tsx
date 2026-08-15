@@ -1,11 +1,21 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "./components/ui/Toast";
 import { LoginPage } from "./features/auth/LoginPage";
 import { ProtectedRoute, PublicOnlyRoute } from "./routes/ProtectedRoute";
 import { AppLayout } from "./components/layout/AppLayout";
 import { authService } from "./services/authService";
 import { useAuthStore } from "./store/authStore";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes cache
+    },
+  },
+});
 
 function DashboardPlaceholder() {
   const { user } = useAuthStore();
@@ -27,24 +37,26 @@ export default function App() {
   }, []);
 
   return (
-    <ToastProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<PublicOnlyRoute />}>
-            <Route path="/login" element={<LoginPage />} />
-          </Route>
-
-          <Route element={<ProtectedRoute />}>
-            <Route element={<AppLayout />}>
-              <Route path="/dashboard" element={<DashboardPlaceholder />} />
-              <Route path="/board" element={<DashboardPlaceholder />} />
-              <Route path="/analytics" element={<DashboardPlaceholder />} />
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PublicOnlyRoute />}>
+              <Route path="/login" element={<LoginPage />} />
             </Route>
-          </Route>
 
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </ToastProvider>
+            <Route element={<ProtectedRoute />}>
+              <Route element={<AppLayout />}>
+                <Route path="/dashboard" element={<DashboardPlaceholder />} />
+                <Route path="/board" element={<DashboardPlaceholder />} />
+                <Route path="/analytics" element={<DashboardPlaceholder />} />
+              </Route>
+            </Route>
+
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </ToastProvider>
+    </QueryClientProvider>
   );
 }

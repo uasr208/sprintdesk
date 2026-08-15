@@ -5,8 +5,8 @@
 - [x] Initialize Vite + React 18 + TypeScript (`strict: true`)
 - [x] Configure Tailwind CSS v3+
 - [x] Setup Git repository & GitHub connection
-- [ ] Configure React Router v6+ with Code Splitting (Lazy & Suspense)
-- [ ] Build reusable layout components (Sidebar, Navbar, Theme Switcher)
+- [x] Configure React Router v6+ with Code Splitting (Lazy & Suspense)
+- [x] Build reusable layout components (Sidebar, Navbar, Theme Switcher)
 
 ## Phase 2: Custom Design System (No external UI libraries)
 
@@ -21,15 +21,15 @@
 
 ## Phase 3: Task 01 — Authentication System
 
-- [ ] Auth Store (Zustand: store access token in memory)
-- [ ] Local Storage Simulator (for Refresh Token)
-- [ ] Custom Axios / Fetch Interceptor (Attach Bearer token)
-- [ ] Silent Token Refresh logic with automatic request retry on 401
-- [ ] Protected Routes (`/login`, `/dashboard`, `/board`, `/analytics`)
-- [ ] Fullscreen Session Validation Loader on application boot
-- [ ] Login Form UI with Validation & Logout functionality
-- [ ] _Bonus:_ Remember Me functionality (30-day persistence)
-- [ ] _Bonus:_ Password Strength Indicator component
+- [x] Auth Store (Zustand: store access token in memory)
+- [x] Local Storage Simulator (for Refresh Token)
+- [x] Custom Axios / Fetch Interceptor (Attach Bearer token)
+- [x] Silent Token Refresh logic with automatic request retry on 401
+- [x] Protected Routes (`/login`, `/dashboard`, `/board`, `/analytics`)
+- [x] Fullscreen Session Validation Loader on application boot
+- [x] Login Form UI with Validation & Logout functionality
+- [x] _Bonus:_ Remember Me functionality (30-day persistence)
+- [x] _Bonus:_ Password Strength Indicator component
 
 ## Phase 4: Task 02 — Interactive Kanban Sprint Board (`/board`)
 

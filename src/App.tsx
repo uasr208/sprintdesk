@@ -1,85 +1,50 @@
-import { ToastProvider, useToast } from "./components/ui/Toast";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ToastProvider } from "./components/ui/Toast";
+import { LoginPage } from "./features/auth/LoginPage";
+import { ProtectedRoute, PublicOnlyRoute } from "./routes/ProtectedRoute";
+import { authService } from "./services/authService";
+import { useAuthStore } from "./store/authStore";
 import { Button } from "./components/ui/Button";
-import { DataTable, type Column } from "./components/ui/DataTable";
-import { Skeleton } from "./components/ui/Skeleton";
 
-interface DemoTask {
-  id: number;
-  title: string;
-  status: string;
-  priority: string;
-}
-
-const sampleData: DemoTask[] = [
-  {
-    id: 1,
-    title: "Fix Login Auth Interceptor",
-    status: "In Progress",
-    priority: "High",
-  },
-  {
-    id: 2,
-    title: "Build Design System Components",
-    status: "Done",
-    priority: "High",
-  },
-  {
-    id: 3,
-    title: "Setup Recharts Analytics",
-    status: "Backlog",
-    priority: "Medium",
-  },
-];
-
-const columns: Column<DemoTask>[] = [
-  { header: "ID", accessorKey: "id" },
-  { header: "Task Title", accessorKey: "title" },
-  { header: "Status", accessorKey: "status" },
-  { header: "Priority", accessorKey: "priority" },
-];
-
-function MainContent() {
-  const { addToast } = useToast();
+function DashboardPlaceholder() {
+  const { user, logout } = useAuthStore();
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-8 flex flex-col items-center gap-6">
+    <div className="min-h-screen bg-slate-900 text-white p-8 space-y-4">
       <h1 className="text-2xl font-bold text-blue-400">
-        Design System: Toast & DataTable
+        Welcome to SprintDesk, {user?.firstName}!
       </h1>
-
-      <div className="flex gap-3">
-        <Button
-          variant="primary"
-          onClick={() => addToast("Task created successfully!", "success")}
-        >
-          Trigger Success Toast
-        </Button>
-        <Button
-          variant="danger"
-          onClick={() => addToast("Failed to delete task", "error")}
-        >
-          Trigger Error Toast
-        </Button>
-      </div>
-
-      <div className="w-full max-w-2xl space-y-4">
-        <h2 className="text-lg font-semibold">DataTable Preview</h2>
-        <DataTable data={sampleData} columns={columns} />
-
-        <h2 className="text-lg font-semibold mt-6">Skeleton Loader Preview</h2>
-        <div className="space-y-2">
-          <Skeleton className="h-6 w-full" />
-          <Skeleton className="h-6 w-3/4" />
-        </div>
-      </div>
+      <p className="text-slate-400">Logged in as {user?.email}</p>
+      <Button variant="danger" onClick={logout}>
+        Log Out
+      </Button>
     </div>
   );
 }
 
 export default function App() {
+  useEffect(() => {
+    authService.validateSession();
+  }, []);
+
   return (
     <ToastProvider>
-      <MainContent />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<PublicOnlyRoute />}>
+            <Route path="/login" element={<LoginPage />} />
+          </Route>
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<DashboardPlaceholder />} />
+            <Route path="/board" element={<DashboardPlaceholder />} />
+            <Route path="/analytics" element={<DashboardPlaceholder />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </BrowserRouter>
     </ToastProvider>
   );
 }

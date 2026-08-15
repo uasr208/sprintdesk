@@ -9,6 +9,7 @@ import {
 
 interface TaskCardProps {
   task: Task;
+  onTaskClick?: (task: Task) => void; // <--- Add card click handler
   onEdit?: (task: Task) => void;
   onDelete?: (id: string) => void;
   onMove?: (taskId: string, status: TaskStatus) => void;
@@ -30,6 +31,7 @@ const statusOptions: Array<{ value: TaskStatus; label: string }> = [
 
 export const TaskCard: React.FC<TaskCardProps> = ({
   task,
+  onTaskClick,
   onEdit,
   onDelete,
   onMove,
@@ -54,6 +56,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       style={style}
       {...attributes}
       {...listeners}
+      onClick={() => onTaskClick?.(task)} // <--- Open Drawer on Card Click
       className={`group relative bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl p-4 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing ${
         isDragging ? "opacity-40 border-blue-500 scale-95" : ""
       }`}
@@ -68,7 +71,6 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         </span>
 
         <div className="flex items-center gap-1">
-          {/* Mobile-friendly Quick Move Selector */}
           {onMove && (
             <select
               value={task.status}
@@ -89,12 +91,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             </select>
           )}
 
+          {/* Edit Button */}
           {onEdit && (
             <button
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent opening drawer when clicking edit
                 onEdit(task);
               }}
+              onPointerDown={(e) => e.stopPropagation()}
               className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded text-slate-400 hover:text-slate-200 text-xs"
               title="Edit Task"
             >
@@ -102,12 +106,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             </button>
           )}
 
+          {/* Delete Button */}
           {onDelete && (
             <button
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent opening drawer when clicking delete
                 onDelete(task.id);
               }}
+              onPointerDown={(e) => e.stopPropagation()}
               className="p-1 hover:bg-red-500/10 rounded text-slate-400 hover:text-red-400 text-xs"
               title="Delete Task"
             >

@@ -7,16 +7,21 @@ export const AppLayout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
+    <div className="h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col">
+      {/* Sticky Glossy Glassmorphic Navbar */}
       <Navbar
         onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
-      <div className="flex flex-1 relative">
+
+      <div className="flex flex-1 overflow-hidden relative">
+        {/* Fixed Sidebar */}
         <Sidebar
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
         />
-        <main className="flex-1 p-4 sm:p-6 overflow-y-auto w-full max-w-full">
+
+        {/* Scrollable Main Workspace */}
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 w-full max-w-full">
           <Outlet />
         </main>
       </div>

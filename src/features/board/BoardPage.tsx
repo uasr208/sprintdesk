@@ -12,8 +12,11 @@ import { useTaskStore } from "../../store/taskStore";
 import { useTasks } from "./useTasks";
 import { KanbanColumn } from "./KanbanColumn";
 import { TaskCard } from "./TaskCard";
+import { TaskDrawer } from "./TaskDrawer";
+import { TaskModal } from "./TaskModal";
 import { Input } from "../../components/ui/Input";
 import { Select } from "../../components/ui/Select";
+import { Button } from "../../components/ui/Button";
 import { useToast } from "../../components/ui/Toast";
 import { type Task, type TaskStatus } from "../../types/task";
 
@@ -26,10 +29,16 @@ const columns: Array<{ id: TaskStatus; title: string; icon: string }> = [
 
 export const BoardPage: React.FC = () => {
   const { isLoading } = useTasks();
-  const { tasks, moveTask, undoLastMove, deleteTask } = useTaskStore();
+  const { tasks, addTask, updateTask, moveTask, undoLastMove, deleteTask } =
+    useTaskStore();
   const { addToast } = useToast();
 
   const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
 
@@ -63,7 +72,6 @@ export const BoardPage: React.FC = () => {
     const taskId = String(active.id);
     const overId = String(over.id);
 
-    // Determine target column status
     let targetStatus: TaskStatus | null = null;
     if (columns.some((col) => col.id === overId)) {
       targetStatus = overId as TaskStatus;
@@ -76,6 +84,31 @@ export const BoardPage: React.FC = () => {
     if (targetStatus && currentTask && currentTask.status !== targetStatus) {
       moveTask(taskId, targetStatus);
       addToast(`Moved task to ${targetStatus.replace("_", " ")}`, "info");
+    }
+  };
+
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask(task);
+    setIsDrawerOpen(true);
+  };
+
+  const handleOpenCreateModal = () => {
+    setEditingTask(null);
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEditModal = (task: Task) => {
+    setEditingTask(task);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveTask = (taskData: Omit<Task, "id"> | Task) => {
+    if ("id" in taskData) {
+      updateTask(taskData.id, taskData);
+      addToast("Task updated successfully", "success");
+    } else {
+      addTask(taskData);
+      addToast("Task created successfully", "success");
     }
   };
 
@@ -99,14 +132,14 @@ export const BoardPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header & Mobile-Responsive Controls */}
+      {/* Header & Controls */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">
             Sprint Board
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            Drag cards across columns to update status
+            Drag cards across columns or use quick actions to manage tasks
           </p>
         </div>
 
@@ -143,16 +176,24 @@ export const BoardPage: React.FC = () => {
           >
             <span>↩️</span> <span>Undo</span>
           </button>
+
+          <Button
+            variant="primary"
+            onClick={handleOpenCreateModal}
+            className="shrink-0"
+          >
+            + New Task
+          </Button>
         </div>
       </div>
 
-      {/* Board Columns Container */}
+      {/* Kanban Board Columns */}
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-6">
+        <div className="flex gap-4 overflow-x-auto pb-6 pt-2 w-full max-w-full touch-pan-x snap-x">
           {columns.map((col) => (
             <KanbanColumn
               key={col.id}
@@ -160,6 +201,8 @@ export const BoardPage: React.FC = () => {
               title={col.title}
               icon={col.icon}
               tasks={filteredTasks.filter((t) => t.status === col.id)}
+              onTaskClick={handleTaskClick}
+              onEditTask={handleOpenEditModal}
               onDeleteTask={handleDelete}
               onMoveTask={(id, targetStatus) => {
                 moveTask(id, targetStatus);
@@ -176,6 +219,25 @@ export const BoardPage: React.FC = () => {
           {activeTask ? <TaskCard task={activeTask} /> : null}
         </DragOverlay>
       </DndContext>
+
+      {/* Task Details Drawer */}
+      <TaskDrawer
+        task={selectedTask}
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        onEdit={(task) => {
+          setIsDrawerOpen(false);
+          handleOpenEditModal(task);
+        }}
+      />
+
+      {/* Task Create / Edit Modal */}
+      <TaskModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveTask}
+        initialTask={editingTask}
+      />
     </div>
   );
 };

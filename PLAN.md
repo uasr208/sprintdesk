@@ -33,17 +33,17 @@
 
 ## Phase 4: Task 02 — Interactive Kanban Sprint Board (`/board`)
 
-- [ ] Fetch initial 30 tasks from JSONPlaceholder API using TanStack Query
-- [ ] Create Zustand Board Store for local board state
-- [ ] Setup `@dnd-kit/core` for Drag and Drop across 4 columns (Backlog, In Progress, Review, Done)
-- [ ] Implement Task reordering within & between columns
-- [ ] Task CRUD: Create task modal, Edit details, Delete with confirmation
-- [ ] Side Drawer for Task details & adding comments
-- [ ] LocalStorage Persistence for board state
-- [ ] Dynamic task count badges on columns
-- [ ] _Bonus:_ Undo last Drag-and-Drop action button
-- [ ] _Bonus:_ Filter tasks by Priority or Assignee
-- [ ] _Bonus:_ Keyboard-accessible Drag-and-Drop support
+- [x] Fetch initial 30 tasks from JSONPlaceholder API using TanStack Query
+- [x] Create Zustand Board Store for local board state
+- [x] Setup `@dnd-kit/core` for Drag and Drop across 4 columns (Backlog, In Progress, Review, Done)
+- [x] Implement Task reordering within & between columns
+- [x] Task CRUD: Create task modal, Edit details, Delete with confirmation
+- [x] Side Drawer for Task details & adding comments
+- [x] LocalStorage Persistence for board state
+- [x] Dynamic task count badges on columns
+- [x] _Bonus:_ Undo last Drag-and-Drop action button
+- [x] _Bonus:_ Filter tasks by Priority or Assignee
+- [x] _Bonus:_ Keyboard-accessible Drag-and-Drop support
 
 ## Phase 5: Task 03 — Analytics & Data Visualization (`/analytics`)
 
@@ -52,7 +52,7 @@
 - [ ] Task Status Distribution Chart
 - [ ] Priority Breakdown Chart
 - [ ] Task Completion Trend over time
-- [ ] Responsive Layout (down to 375px mobile viewports)
+- [x] Responsive Layout (down to 375px mobile viewports)
 - [ ] Add smooth CSS/SVG chart animations
 - [ ] _Bonus:_ Custom Date-Range Filtering
 - [ ] _Bonus:_ Export Analytics dashboard/charts as PNG

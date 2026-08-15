@@ -11,9 +11,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu }) => {
   const { user, logout } = useAuthStore();
 
   return (
-    <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-10 transition-colors duration-200">
+    <header className="h-16 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40 transition-colors duration-200 shrink-0">
       <div className="flex items-center gap-3">
-        {/* Mobile Hamburger Toggle (SVG) */}
+        {/* Mobile Hamburger Toggle SVG */}
         <button
           onClick={onToggleMobileMenu}
           className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors md:hidden"

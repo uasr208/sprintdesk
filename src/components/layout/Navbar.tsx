@@ -13,13 +13,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu }) => {
   return (
     <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-10 transition-colors duration-200">
       <div className="flex items-center gap-3">
-        {/* Mobile Hamburger Toggle */}
+        {/* Mobile Hamburger Toggle (SVG) */}
         <button
           onClick={onToggleMobileMenu}
-          className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden"
-          aria-label="Toggle Mobile Menu"
+          className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors md:hidden"
+          aria-label="Toggle Navigation Menu"
         >
-          🍔
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
         </button>
 
         <span className="text-lg sm:text-xl font-black text-blue-600 dark:text-blue-500 tracking-wider">

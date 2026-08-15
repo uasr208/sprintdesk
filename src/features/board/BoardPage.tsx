@@ -161,6 +161,13 @@ export const BoardPage: React.FC = () => {
               icon={col.icon}
               tasks={filteredTasks.filter((t) => t.status === col.id)}
               onDeleteTask={handleDelete}
+              onMoveTask={(id, targetStatus) => {
+                moveTask(id, targetStatus);
+                addToast(
+                  `Moved task to ${targetStatus.replace("_", " ")}`,
+                  "info",
+                );
+              }}
             />
           ))}
         </div>

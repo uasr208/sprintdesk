@@ -1,12 +1,17 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { type Task, type TaskPriority } from "../../types/task";
+import {
+  type Task,
+  type TaskPriority,
+  type TaskStatus,
+} from "../../types/task";
 
 interface TaskCardProps {
   task: Task;
   onEdit?: (task: Task) => void;
   onDelete?: (id: string) => void;
+  onMove?: (taskId: string, status: TaskStatus) => void;
 }
 
 const priorityColors: Record<TaskPriority, string> = {
@@ -16,10 +21,18 @@ const priorityColors: Record<TaskPriority, string> = {
   urgent: "bg-red-500/10 text-red-400 border-red-500/20",
 };
 
+const statusOptions: Array<{ value: TaskStatus; label: string }> = [
+  { value: "backlog", label: "Backlog" },
+  { value: "in_progress", label: "In Progress" },
+  { value: "review", label: "In Review" },
+  { value: "done", label: "Completed" },
+];
+
 export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   onEdit,
   onDelete,
+  onMove,
 }) => {
   const {
     attributes,
@@ -45,7 +58,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         isDragging ? "opacity-40 border-blue-500 scale-95" : ""
       }`}
     >
-      <div className="flex items-start justify-between gap-2 mb-2">
+      <div className="flex items-center justify-between gap-2 mb-2">
         <span
           className={`px-2 py-0.5 text-xs font-semibold rounded-md border uppercase tracking-wider ${
             priorityColors[task.priority]
@@ -53,7 +66,29 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         >
           {task.priority}
         </span>
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+
+        <div className="flex items-center gap-1">
+          {/* Mobile-friendly Quick Move Selector */}
+          {onMove && (
+            <select
+              value={task.status}
+              onChange={(e) => {
+                e.stopPropagation();
+                onMove(task.id, e.target.value as TaskStatus);
+              }}
+              onClick={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+              className="text-[11px] bg-slate-100 dark:bg-slate-700/80 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600 rounded px-1.5 py-0.5 outline-none cursor-pointer focus:ring-1 focus:ring-blue-500"
+              title="Move Task Status"
+            >
+              {statusOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  Move: {opt.label}
+                </option>
+              ))}
+            </select>
+          )}
+
           {onEdit && (
             <button
               onClick={(e) => {
@@ -66,6 +101,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               ✏️
             </button>
           )}
+
           {onDelete && (
             <button
               onClick={(e) => {

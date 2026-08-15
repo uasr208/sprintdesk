@@ -14,6 +14,7 @@ interface KanbanColumnProps {
   icon: string;
   onEditTask?: (task: Task) => void;
   onDeleteTask?: (id: string) => void;
+  onMoveTask?: (id: string, targetStatus: TaskStatus) => void;
 }
 
 export const KanbanColumn: React.FC<KanbanColumnProps> = ({
@@ -23,6 +24,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
   icon,
   onEditTask,
   onDeleteTask,
+  onMoveTask,
 }) => {
   const { setNodeRef, isOver } = useDroppable({ id });
 
@@ -56,6 +58,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
               task={task}
               onEdit={onEditTask}
               onDelete={onDeleteTask}
+              onMove={onMoveTask}
             />
           ))}
           {tasks.length === 0 && (

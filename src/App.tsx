@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Button } from "./components/ui/Button";
-import { Input } from "./components/ui/Input";
+import { Select } from "./components/ui/Select";
+import { Modal } from "./components/ui/Modal";
 
 export default function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [priority, setPriority] = useState("medium");
+
   return (
     <div className="min-h-screen bg-slate-900 text-white p-8 flex flex-col items-center gap-6">
       <h1 className="text-2xl font-bold text-blue-400">
@@ -9,23 +14,46 @@ export default function App() {
       </h1>
 
       <div className="w-full max-w-md space-y-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-md">
-        <Input
-          label="Email Address"
-          placeholder="name@example.com"
-          helperText="We'll never share your email."
+        <Select
+          label="Task Priority"
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+          options={[
+            { label: "Low Priority", value: "low" },
+            { label: "Medium Priority", value: "medium" },
+            { label: "High Priority", value: "high" },
+          ]}
         />
 
-        <Input
-          label="Password"
-          type="password"
-          placeholder="••••••••"
-          error="Password must be at least 8 characters long"
-        />
-
-        <Button variant="primary" className="w-full mt-2">
-          Submit
+        <Button
+          variant="primary"
+          onClick={() => setIsModalOpen(true)}
+          className="w-full mt-2"
+        >
+          Open Test Modal
         </Button>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Create New Task"
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={() => setIsModalOpen(false)}>
+              Save Task
+            </Button>
+          </>
+        }
+      >
+        <p className="text-sm">
+          This is an accessible modal overlay with keyboard (Escape key)
+          support!
+        </p>
+      </Modal>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { ProtectedRoute, PublicOnlyRoute } from "./routes/ProtectedRoute";
 import { AppLayout } from "./components/layout/AppLayout";
 import { authService } from "./services/authService";
 import { useAuthStore } from "./store/authStore";
+import { BoardPage } from "./features/board/BoardPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,7 +49,7 @@ export default function App() {
             <Route element={<ProtectedRoute />}>
               <Route element={<AppLayout />}>
                 <Route path="/dashboard" element={<DashboardPlaceholder />} />
-                <Route path="/board" element={<DashboardPlaceholder />} />
+                <Route path="/board" element={<BoardPage />} />
                 <Route path="/analytics" element={<DashboardPlaceholder />} />
               </Route>
             </Route>

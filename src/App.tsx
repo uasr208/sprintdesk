@@ -5,9 +5,10 @@ import { ToastProvider } from "./components/ui/Toast";
 import { LoginPage } from "./features/auth/LoginPage";
 import { ProtectedRoute, PublicOnlyRoute } from "./routes/ProtectedRoute";
 import { AppLayout } from "./components/layout/AppLayout";
-import { authService } from "./services/authService";
-import { useAuthStore } from "./store/authStore";
+import { DashboardPage } from "./features/dashboard/DashboardPage";
+import { AnalyticsPage } from "./features/analytics/AnalyticsPage";
 import { BoardPage } from "./features/board/BoardPage";
+import { authService } from "./services/authService";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,20 +18,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-function DashboardPlaceholder() {
-  const { user } = useAuthStore();
-  return (
-    <div className="space-y-2">
-      <h1 className="text-2xl font-bold text-slate-100">
-        Welcome, {user?.firstName}!
-      </h1>
-      <p className="text-slate-400">
-        Select a menu item from the sidebar to start.
-      </p>
-    </div>
-  );
-}
 
 export default function App() {
   useEffect(() => {
@@ -48,9 +35,9 @@ export default function App() {
 
             <Route element={<ProtectedRoute />}>
               <Route element={<AppLayout />}>
-                <Route path="/dashboard" element={<DashboardPlaceholder />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/board" element={<BoardPage />} />
-                <Route path="/analytics" element={<DashboardPlaceholder />} />
+                <Route path="/analytics" element={<AnalyticsPage />} />
               </Route>
             </Route>
 

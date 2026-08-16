@@ -47,10 +47,10 @@
 
 ## Phase 5: Task 03 — Analytics & Data Visualization (`/analytics`)
 
-- [ ] Derive live chart metrics directly from Zustand Board State / API
+- [x] Derive live chart metrics directly from Zustand Board State / API
 - [ ] Sprint Velocity Chart (Recharts)
-- [ ] Task Status Distribution Chart
-- [ ] Priority Breakdown Chart
+- [x] Task Status Distribution Chart
+- [x] Priority Breakdown Chart
 - [ ] Task Completion Trend over time
 - [x] Responsive Layout (down to 375px mobile viewports)
 - [ ] Add smooth CSS/SVG chart animations
@@ -59,12 +59,12 @@
 
 ## Phase 6: Task 05 — Real-Time Notification System
 
-- [ ] Poll JSONPlaceholder `/posts?_limit=5` endpoint periodically
-- [ ] Handle Page Visibility API: Pause polling on tab hide, resume on tab visible
-- [ ] Bell icon with unread badge counter in Header
-- [ ] Notification Panel/Drawer (Latest 20, Mark single as read, Mark all as read)
-- [ ] Fire Toast alert when new notification arrives while drawer is closed
-- [ ] Store notification state in Zustand + LocalStorage
+- [x] Poll JSONPlaceholder `/posts?_limit=5` endpoint periodically
+- [x] Handle Page Visibility API: Pause polling on tab hide, resume on tab visible
+- [x] Bell icon with unread badge counter in Header
+- [x] Notification Panel/Drawer (Latest 20, Mark single as read, Mark all as read)
+- [x] Fire Toast alert when new notification arrives while drawer is closed
+- [x] Store notification state in Zustand + LocalStorage
 
 ## Phase 7: Task 06 — Testing, Optimization & Quality Control
 

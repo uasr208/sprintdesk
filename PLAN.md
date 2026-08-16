@@ -48,14 +48,14 @@
 ## Phase 5: Task 03 — Analytics & Data Visualization (`/analytics`)
 
 - [x] Derive live chart metrics directly from Zustand Board State / API
-- [ ] Sprint Velocity Chart (Recharts)
+- [x] Sprint Velocity Chart (Recharts)
 - [x] Task Status Distribution Chart
 - [x] Priority Breakdown Chart
-- [ ] Task Completion Trend over time
+- [x] Task Completion Trend over time
 - [x] Responsive Layout (down to 375px mobile viewports)
-- [ ] Add smooth CSS/SVG chart animations
-- [ ] _Bonus:_ Custom Date-Range Filtering
-- [ ] _Bonus:_ Export Analytics dashboard/charts as PNG
+- [x] Add smooth CSS/SVG chart animations
+- [x] _Bonus:_ Custom Date-Range Filtering
+- [x] _Bonus:_ Export Analytics dashboard/charts as PNG
 
 ## Phase 6: Task 05 — Real-Time Notification System
 

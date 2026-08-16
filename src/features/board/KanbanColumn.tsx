@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -12,22 +12,22 @@ interface KanbanColumnProps {
   title: string;
   icon: string;
   tasks: Task[];
-  onTaskClick?: (task: Task) => void; // <--- Declare prop
+  onTaskClick?: (task: Task) => void;
   onEditTask?: (task: Task) => void;
   onDeleteTask?: (id: string) => void;
   onMoveTask?: (id: string, targetStatus: TaskStatus) => void;
 }
 
-export const KanbanColumn: React.FC<KanbanColumnProps> = ({
+export const KanbanColumn = memo(function KanbanColumn({
   id,
   title,
   icon,
   tasks,
-  onTaskClick, // <--- Destructure prop
+  onTaskClick,
   onEditTask,
   onDeleteTask,
   onMoveTask,
-}) => {
+}: KanbanColumnProps) {
   const { setNodeRef } = useDroppable({ id });
 
   return (
@@ -56,7 +56,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
             <TaskCard
               key={task.id}
               task={task}
-              onTaskClick={onTaskClick} // <--- Pass down to TaskCard
+              onTaskClick={onTaskClick}
               onEdit={onEditTask}
               onDelete={onDeleteTask}
               onMove={onMoveTask}
@@ -72,4 +72,4 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
       </SortableContext>
     </div>
   );
-};
+});

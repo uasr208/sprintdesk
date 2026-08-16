@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -59,63 +59,105 @@ export const BoardPage: React.FC = () => {
     });
   }, [tasks, searchQuery, priorityFilter]);
 
-  const handleDragStart = (event: DragStartEvent) => {
-    const task = tasks.find((t) => t.id === event.active.id);
-    if (task) setActiveTask(task);
-  };
+  const handleDragStart = useCallback(
+    (event: DragStartEvent) => {
+      const task = tasks.find((t) => t.id === event.active.id);
+      if (task) setActiveTask(task);
+    },
+    [tasks],
+  );
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    setActiveTask(null);
-    if (!over) return;
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      setActiveTask(null);
+      if (!over) return;
 
-    const taskId = String(active.id);
-    const overId = String(over.id);
+      const taskId = String(active.id);
+      const overId = String(over.id);
 
-    let targetStatus: TaskStatus | null = null;
-    if (columns.some((col) => col.id === overId)) {
-      targetStatus = overId as TaskStatus;
-    } else {
-      const overTask = tasks.find((t) => t.id === overId);
-      if (overTask) targetStatus = overTask.status;
-    }
+      let targetStatus: TaskStatus | null = null;
+      if (columns.some((col) => col.id === overId)) {
+        targetStatus = overId as TaskStatus;
+      } else {
+        const overTask = tasks.find((t) => t.id === overId);
+        if (overTask) targetStatus = overTask.status;
+      }
 
-    const currentTask = tasks.find((t) => t.id === taskId);
-    if (targetStatus && currentTask && currentTask.status !== targetStatus) {
-      moveTask(taskId, targetStatus);
-      addToast(`Moved task to ${targetStatus.replace("_", " ")}`, "info");
-    }
-  };
+      const currentTask = tasks.find((t) => t.id === taskId);
+      if (targetStatus && currentTask && currentTask.status !== targetStatus) {
+        moveTask(taskId, targetStatus);
+        addToast(`Moved task to ${targetStatus.replace("_", " ")}`, "info");
+      }
+    },
+    [tasks, moveTask, addToast],
+  );
 
-  const handleTaskClick = (task: Task) => {
+  const handleTaskClick = useCallback((task: Task) => {
     setSelectedTask(task);
     setIsDrawerOpen(true);
-  };
+  }, []);
 
-  const handleOpenCreateModal = () => {
+  const handleOpenCreateModal = useCallback(() => {
     setEditingTask(null);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleOpenEditModal = (task: Task) => {
+  const handleOpenEditModal = useCallback((task: Task) => {
     setEditingTask(task);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleSaveTask = (taskData: Omit<Task, "id"> | Task) => {
-    if ("id" in taskData) {
-      updateTask(taskData.id, taskData);
-      addToast("Task updated successfully", "success");
-    } else {
-      addTask(taskData);
-      addToast("Task created successfully", "success");
-    }
-  };
+  const handleSaveTask = useCallback(
+    (taskData: Omit<Task, "id"> | Task) => {
+      if ("id" in taskData) {
+        updateTask(taskData.id, taskData);
+        addToast("Task updated successfully", "success");
+      } else {
+        addTask(taskData);
+        addToast("Task created successfully", "success");
+      }
+      setIsModalOpen(false);
+    },
+    [updateTask, addTask, addToast],
+  );
 
-  const handleDelete = (id: string) => {
-    deleteTask(id);
-    addToast("Task deleted successfully", "success");
-  };
+  const handleDelete = useCallback(
+    (id: string) => {
+      deleteTask(id);
+      addToast("Task deleted successfully", "success");
+    },
+    [deleteTask, addToast],
+  );
+
+  const handleMoveTaskInline = useCallback(
+    (id: string, targetStatus: TaskStatus) => {
+      moveTask(id, targetStatus);
+      addToast(`Moved task to ${targetStatus.replace("_", " ")}`, "info");
+    },
+    [moveTask, addToast],
+  );
+
+  const handleUndoMove = useCallback(() => {
+    undoLastMove();
+    addToast("Reverted last task movement", "info");
+  }, [undoLastMove, addToast]);
+
+  const handleCloseDrawer = useCallback(() => {
+    setIsDrawerOpen(false);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  const handleDrawerEdit = useCallback(
+    (task: Task) => {
+      setIsDrawerOpen(false);
+      handleOpenEditModal(task);
+    },
+    [handleOpenEditModal],
+  );
 
   if (isLoading) {
     return (
@@ -167,10 +209,7 @@ export const BoardPage: React.FC = () => {
           </div>
 
           <button
-            onClick={() => {
-              undoLastMove();
-              addToast("Reverted last task movement", "info");
-            }}
+            onClick={handleUndoMove}
             className="px-3 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-sm font-medium transition-colors shrink-0 flex items-center justify-center gap-1"
             title="Undo Last Move"
           >
@@ -204,13 +243,7 @@ export const BoardPage: React.FC = () => {
               onTaskClick={handleTaskClick}
               onEditTask={handleOpenEditModal}
               onDeleteTask={handleDelete}
-              onMoveTask={(id, targetStatus) => {
-                moveTask(id, targetStatus);
-                addToast(
-                  `Moved task to ${targetStatus.replace("_", " ")}`,
-                  "info",
-                );
-              }}
+              onMoveTask={handleMoveTaskInline}
             />
           ))}
         </div>
@@ -224,17 +257,14 @@ export const BoardPage: React.FC = () => {
       <TaskDrawer
         task={selectedTask}
         isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        onEdit={(task) => {
-          setIsDrawerOpen(false);
-          handleOpenEditModal(task);
-        }}
+        onClose={handleCloseDrawer}
+        onEdit={handleDrawerEdit}
       />
 
       {/* Task Create / Edit Modal */}
       <TaskModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         onSave={handleSaveTask}
         initialTask={editingTask}
       />

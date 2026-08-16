@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
@@ -9,7 +9,7 @@ import {
 
 interface TaskCardProps {
   task: Task;
-  onTaskClick?: (task: Task) => void; // <--- Add card click handler
+  onTaskClick?: (task: Task) => void;
   onEdit?: (task: Task) => void;
   onDelete?: (id: string) => void;
   onMove?: (taskId: string, status: TaskStatus) => void;
@@ -29,13 +29,13 @@ const statusOptions: Array<{ value: TaskStatus; label: string }> = [
   { value: "done", label: "Completed" },
 ];
 
-export const TaskCard: React.FC<TaskCardProps> = ({
+export const TaskCard = memo(function TaskCard({
   task,
   onTaskClick,
   onEdit,
   onDelete,
   onMove,
-}) => {
+}: TaskCardProps) {
   const {
     attributes,
     listeners,
@@ -56,7 +56,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       style={style}
       {...attributes}
       {...listeners}
-      onClick={() => onTaskClick?.(task)} // <--- Open Drawer on Card Click
+      onClick={() => onTaskClick?.(task)}
       className={`group relative bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl p-4 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing ${
         isDragging ? "opacity-40 border-blue-500 scale-95" : ""
       }`}
@@ -95,7 +95,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           {onEdit && (
             <button
               onClick={(e) => {
-                e.stopPropagation(); // Prevent opening drawer when clicking edit
+                e.stopPropagation();
                 onEdit(task);
               }}
               onPointerDown={(e) => e.stopPropagation()}
@@ -110,7 +110,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           {onDelete && (
             <button
               onClick={(e) => {
-                e.stopPropagation(); // Prevent opening drawer when clicking delete
+                e.stopPropagation();
                 onDelete(task.id);
               }}
               onPointerDown={(e) => e.stopPropagation()}
@@ -156,4 +156,4 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       </div>
     </div>
   );
-};
+});

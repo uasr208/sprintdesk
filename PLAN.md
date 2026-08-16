@@ -68,13 +68,13 @@
 
 ## Phase 7: Task 06 — Testing, Optimization & Quality Control
 
-- [ ] Performance Optimization (`React.memo`, `useMemo`, `useCallback`)
+- [x] Performance Optimization (`React.memo`, `useMemo`, `useCallback`)
 - [ ] Target Lighthouse: Performance >= 88, Accessibility >= 92
-- [ ] Write Unit Tests using Vitest + React Testing Library:
-  - [ ] `useToast` custom hook tests
-  - [ ] Zustand Board Store tests (add, move, delete)
-  - [ ] Auth Interceptor tests (refresh token & request retry flow)
-- [ ] All tests passing via `npm run test`
+- [x] Write Unit Tests using Vitest + React Testing Library:
+  - [x] `useToast` custom hook tests
+  - [x] Zustand Board Store tests (add, move, delete)
+  - [x] Auth Interceptor tests (refresh token & request retry flow)
+- [x] All tests passing via `npm run test`
 
 ## Phase 8: Final Deployment & Submission
 

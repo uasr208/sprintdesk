@@ -6,8 +6,8 @@ SprintDesk is a modern, high-performance sprint management application built wit
 
 ## 🔗 Live Demo & Repository
 
-- **Live Application:** [https://sprintdesk.vercel.app](https://sprintdesk.vercel.app)
-- **GitHub Repository:** [https://github.com/YOUR_GITHUB_USERNAME/sprintdesk](https://github.com/YOUR_GITHUB_USERNAME/sprintdesk)
+- **Live Application:** [https://sprintdesk-rho.vercel.app]
+- **GitHub Repository:** [https://github.com/uasr208/sprintdesk/tree/main]
 
 ---
 
@@ -32,7 +32,7 @@ SprintDesk is a modern, high-performance sprint management application built wit
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/YOUR_GITHUB_USERNAME/sprintdesk.git](https://github.com/YOUR_GITHUB_USERNAME/sprintdesk.git)
+   git clone [https://github.com/uasr208/sprintdesk/tree/main]
    cd sprintdesk
    Install Dependencies:
    ```

@@ -17,7 +17,6 @@
 - [x] Toast System (custom toast notifications hook & UI)
 - [x] DataTable (sortable, paginated)
 - [x] Skeleton / Loading States
-- [ ] _Bonus:_ Storybook Setup & Accessibility (axe-core) testing
 
 ## Phase 3: Task 01 — Authentication System
 
@@ -69,7 +68,7 @@
 ## Phase 7: Task 06 — Testing, Optimization & Quality Control
 
 - [x] Performance Optimization (`React.memo`, `useMemo`, `useCallback`)
-- [ ] Target Lighthouse: Performance >= 88, Accessibility >= 92
+- [x] Target Lighthouse: Performance >= 88, Accessibility >= 92
 - [x] Write Unit Tests using Vitest + React Testing Library:
   - [x] `useToast` custom hook tests
   - [x] Zustand Board Store tests (add, move, delete)
@@ -78,7 +77,7 @@
 
 ## Phase 8: Final Deployment & Submission
 
-- [ ] Public GitHub Repository review
-- [ ] Live Deployment (Vercel / Netlify / Render)
-- [ ] Comprehensive `README.md` (System Architecture, API docs, Local Setup guide, Assumptions)
-- [ ] Screen Recording Demo video
+- [x] Public GitHub Repository review
+- [x] Live Deployment (Vercel / Netlify / Render)
+- [x] Comprehensive `README.md` (System Architecture, API docs, Local Setup guide, Assumptions)
+- [x] Screen Recording Demo video

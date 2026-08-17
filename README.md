@@ -8,6 +8,7 @@ SprintDesk is a modern, high-performance sprint management application built wit
 
 - **Live Application:** [https://sprintdesk-rho.vercel.app]
 - **GitHub Repository:** [https://github.com/uasr208/sprintdesk/tree/main]
+- **Video Presentation:** [https://drive.google.com/file/d/1JSSJ7Fjg7YMnOhx3KniiFiuT6JjpKLsy/view?usp=drive_link]
 
 ---
 
